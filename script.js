@@ -13,31 +13,47 @@ let secondnum = 0;
 let choose = true; //true = firstnum, false = secondnum
 let operator = "";
 let notyetoperated = true;
+let secondoperate = false;
+let lastbtn = "";
 
 for (let i = 0; i < numButtons.length; i++) {
     numButtons[i].addEventListener ("click", () => {
+        if (lastbtn == "equal") {
+            firstnum = 0;
+        }
         if (choose) {
             upper += numButtons[i].innerText;
             upperscreen.textContent = upper;
             lowerscreen.textContent = lower;       
             firstnum = firstnum * 10 + Number(numButtons[i].innerText);
-        } else {
+        } else if (!choose) {
             upper += numButtons[i].innerText;
             upperscreen.textContent = upper;       
             secondnum = secondnum * 10 + Number(numButtons[i].innerText);
         }
+        lastbtn = "num";
     });
 }
 
 for (let i = 0; i < numOperation.length; i++) {
     numOperation[i].addEventListener("click", () => {
-        if (notyetoperated) {
-            upper += " " + numOperation[i].innerText + " ";
+        if (secondoperate && lastbtn != "operate" && lastbtn == "equal") {
+            upper = firstnum + " " + numOperation[i].innerText + " ";
             upperscreen.textContent = upper;
             choose = false;
             operator = numOperation[i].innerText;
             notyetoperated = false;    
         }
+        if (lastbtn != "equal" && lastbtn != "operate") {
+            upper += " " + numOperation[i].innerText + " ";
+            upperscreen.textContent = upper;
+            choose = false;
+            operator = numOperation[i].innerText;
+            notyetoperated = false;    
+        } else {
+
+        }
+        lastbtn = "operate"
     })
 }
 
@@ -51,21 +67,24 @@ clear.addEventListener("click", () => {
     choose = true;
     operator = "";
     notyetoperated = true;
+    cassecondoperate = false;
 });
 
 equal.addEventListener("click", () => {
-    if (!choose) {
+    if (!choose && lastbtn == "num") {
         upper += " " + equal.innerText + " ";
         upperscreen.textContent = upper;
         lower = operate(operator, firstnum, secondnum);
         lowerscreen.textContent = lower;
+        firstnum = lower;
         upper = "";
         lower = ""; 
         choose = true;
         notyetoperated = true;
-        firstnum = 0;
         secondnum = 0;
+        secondoperate = true;
     }
+    lastbtn = "equal"
 })
 
 
