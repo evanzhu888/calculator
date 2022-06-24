@@ -13,7 +13,7 @@ let secondnum = 0;
 let choose = true; //true = firstnum, false = secondnum
 let operator = "";
 let notyetoperated = true;
-let secondoperate = false;
+let secondoperate = true;
 let lastbtn = "";
 
 for (let i = 0; i < numButtons.length; i++) {
@@ -43,17 +43,17 @@ for (let i = 0; i < numOperation.length; i++) {
             choose = false;
             operator = numOperation[i].innerText;
             notyetoperated = false;    
+            lastbtn = "operate"
         }
-        if (lastbtn != "equal" && lastbtn != "operate") {
+        if (secondoperate && lastbtn != "equal" && lastbtn != "operate") {
             upper += " " + numOperation[i].innerText + " ";
             upperscreen.textContent = upper;
             choose = false;
             operator = numOperation[i].innerText;
             notyetoperated = false;    
-        } else {
-
+            lastbtn = "operate"
         }
-        lastbtn = "operate"
+        secondoperate = false;
     })
 }
 
@@ -67,7 +67,6 @@ clear.addEventListener("click", () => {
     choose = true;
     operator = "";
     notyetoperated = true;
-    cassecondoperate = false;
 });
 
 equal.addEventListener("click", () => {
